@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit; /*để các thẻ kế thừa thẻ cha có thuộc tính box-sizing*/
+}
+:root {
+    --primary-color: rgb(238, 75, 43);
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #333;
+    --border-color: #060404;
+
+    --navbar-height: 34px;
+    --header-height: 120px;
+    --header-with-search-height: calc(var(--header-height) - var(--navbar-height));
+
+}
+
+html {
+    font-size: 62.5%;
+    line-height: 1.6rem;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif; /*sans-serif là tập hợp chữ không có chân, nếu roboto chưa tải về hoặc không hoạt động thì san-serif sẽ thay thế*/
+}
+
+.grid {
+    width: 1200px;
+    max-width: 100%; /*phòng trường hợp 1 số máy không có độ phân giải đủ 1200px thì width sẽ thành 100%*/
+    margin: 0 auto; /*để khối này được căn giữa mặc định*/
+}
+
+.grid__full--width {
+    width: 100% /*để khi không muốn sài 1200px*/
+}
+
+.grid__row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    form {
+        opacity: 0;
+    } 
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes growth {
+    from {
+        transform: scale(var(--growth-from)); /* transform scale là kích thước*/
+    }
+    to {
+        transform: scale(var(--growth-to));
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    animation: fadeIn linear 0.1s;
+}
+
+.modal__overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    /* z-index: 1; */
+}
+
+.modal__body {
+    --growth-from: 0.7;
+    --growth-to: 1;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    animation: growth linear 0.1s;
+}
+
+/* Button style */
+.btn {
+    min-width: 124px;
+    height: 34px;
+    text-decoration: none;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.4rem;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* color: var(--text-color); */
+}
+
+.btn.btn--size-s {
+    height: 32px;
+    font-size: 12px;
+    padding: 0 8px;
+}
+
+.btn.btn-normal:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+/* nút đăng kí sẽ khoogn bị ảnh hưởng vì có class được ưu tiên hơn .btn.btn-primary */
+
+.btn.btn--primary {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+}
+
+.btn.btn--disabled {
+    color: #949494;
+    cursor: default;
+    background-color: #999;
+}
+
+
