@@ -23,6 +23,8 @@ html {
     font-family: 'Roboto', sans-serif; /*sans-serif là tập hợp chữ không có chân, nếu roboto chưa tải về hoặc không hoạt động thì san-serif sẽ thay thế*/
 }
 
+
+/* Responsive */
 .grid {
     width: 1200px;
     max-width: 100%; /*phòng trường hợp 1 số máy không có độ phân giải đủ 1200px thì width sẽ thành 100%*/
@@ -36,7 +38,22 @@ html {
 .grid__row {
     display: flex;
     flex-wrap: wrap;
+    margin-right: -12px;
+    margin-left: -12px;
 }
+
+.grid__column-2 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 16.6667%;
+}
+
+.grid__column-10 {
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 83.3334%;
+}
+
 
 /* Animation */
 @keyframes fadeIn {

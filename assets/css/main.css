@@ -1,8 +1,6 @@
 .header {
     height: var(--header-height);
     background-image: linear-gradient(0,#fe6433, #f53e2d);
-    padding-left: 32px;
-    padding-right: 32px;
 }
 
 .header__navbar {
