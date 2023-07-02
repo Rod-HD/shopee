@@ -1,4 +1,9 @@
 .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
     height: var(--header-height);
     background-image: linear-gradient(0,#fe6433, #f53e2d);
 }
@@ -47,7 +52,7 @@
     position: absolute;
     z-index: 1; /*đi cùng với position*/
     padding-top: 2px;
-    top: calc(100% + 4px);
+    top: calc(100% + 6px);
     right: 0;
     width: 160px;
     border-radius: 2px;
@@ -180,11 +185,13 @@
     width: 184px;
     background-color: var(--white-color);
     position: absolute;
+    z-index: 1;
     left: 0;
     top: 118%;
     padding: 8px;
     border-radius: 2px; /*bo góc thẻ div QR */
     display: none;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /*chiều ngang 0, di chuyển xuống dưới 1px, độ nhọe 2px*/
     animation: fadeIn ease-in 0.3s;
 }
 
@@ -223,7 +230,7 @@
 /* Header Notification */
 .header__notify {
     position: absolute;
-    z-index: 1;
+    z-index: 2;
     top: 118%;
     right: 0;
     width: 404px;
@@ -283,10 +290,6 @@
     margin-left: 12px;
     user-select: none; /*để không hiện cursor text, người dùng không thể copy*/
     --webkit-user-select: none;
-}
-
-.header__notify-list {
-
 }
 
 .header__notify-item {
@@ -386,10 +389,6 @@
     font-weight: 420;
     color: var(--primary-color);
     cursor: pointer;
-}
-
-.auth-form__form {
-  
 }
 
 .auth-form__input {
@@ -546,6 +545,7 @@
     position: absolute;
     top: calc(100% + 6.5px);
     right: 1px;
+    z-index: 1;
     background-color: var(--white-color);
     width: 400px;
     border-radius: 2px;
@@ -565,6 +565,8 @@
 
 .header__cart-list-item {
     list-style: none;
+    max-height: 56vh; /*không dùng px vì khi co nhỏ web sẽ bị che nút giỏ hàng và xấu, 56vh là 56% độ cao trình duyệt, co nhỏ thông thường sẽ không mất nút giỏ hàng trừ khi quá nhỏ*/
+    overflow-y: scroll; /*có thể dùng auto thay vì auto mặc định là scroll, khi form vượt quá height thì sẽ tạo ra thanh kéo, không muốn tạo thanh kéo ngnang khi chữ quá dài thì dugnf overflow-y để chỉ set cho chiều dọc*/
 }
 
 .header__cart-item {
@@ -596,9 +598,23 @@
 
 .header__cart-item-name {
     font-size: 1.4rem;
+    flex: 1;
+    line-height: 2rem;
+    max-height: 4rem;
+    overflow: hidden;
+    padding-right: 16px;
     font-weight: 500;
     color: var(--text-color);
-
+    text-align: left;
+    justify-content: flex-start;
+    display: block; /*trường hợp webkit box không hỗ trợ thì sẽ chạy block*/
+    display: -webkit-box; /*chỉ hỗ trợ trên các prozer có core webkit, dùng thêm block để khi không hỗ trợ thì block sẽ được thay vào*/
+    -webkit-box-orient: vertical; /*chọn hướng, vertical là dọc, chọn dọc vì dòng 1 xuống hàng dọc tới hàng 2*/
+    -webkit-line-clamp: 2; /*giới hạn xuống dòng, cho 2 vào thì quá dòng 2 sẽ kh hiện và hiện thành dấu ...
+    phải overflow hidden để cắt dòng thừa đi vì nó sẽ hiện ... và không cắt dòng dưới */
+    /* text-overflow: ellipsis;
+    white-space: nowrap;  chỉ áp dụng được với 1 dòng, khi có thuộc tính white sapce nowrap nó sẽ đi xuyên qua đi tiếp mãi ở dòng 1, 
+    dòng thừa sẽ bị che đi, thêm text-overflow ellipsis giúp hiện ra dấu ... nhưng cách này chỉ dùng để hiện 3 chấm ở dòng 1 được thôi*/
 }
 
 .header__cart-item-price {
@@ -775,6 +791,7 @@
     position: absolute;
     right: 0;
     top: 180%;
+    z-index: 1;
     border-radius: 2px;
     list-style: none;
     width: 130px;
@@ -810,6 +827,7 @@
     position: absolute;
     top: calc(100% + 2px);
     left: 0;
+    z-index: 1;
     width: calc(100% - 16px);
     background-color: var(--white-color);
     border-radius: 2px;
@@ -848,4 +866,417 @@
     color: #333;
     line-height: 38px;
     display: block;
+}
+
+.app__container {
+    background-color: #F5F5F5;
+    margin-top: var(--header-height);
+    padding-top: 36px;
+    padding-bottom: 10px;
+}
+
+.category {
+    border-radius: 2px;
+    background-color: var(--white-color);
+}
+
+.category_heading {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--text-color);
+    padding: 20px;
+    text-transform: uppercase;
+}
+
+.category-list {
+    list-style: none;
+    padding-bottom: 8px;
+}
+
+.category-item--active .category-item__link {
+    color: var(--primary-color);
+}
+
+.category-item {
+    position: relative;
+}
+
+.category-item:first-child:before {
+    display: none;
+}
+
+.category-item::before {
+    content: "";
+    border-top: 1px solid #E1E1E1;
+    position: absolute;
+    top: 0;
+    left: 16px;
+    right: 16px;
+}
+
+.category-item__link {
+    position: relative;
+    right: 0; /*cho chạy từ trái sang phải*/
+    transition: right linear 0.1s; /*định nghĩa transition khi có hoạt động xảy ra nó sẽ được gọi để tạo hiệu ứng*/
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.4rem; 
+    display: block;
+    padding: 6px 16px;
+}
+
+.category-item__link:hover {
+    right: -4px; /*cho chạy right từ 0 tới -4*/
+    color: var(--primary-color);
+}
+
+/* Home sort + filter */
+
+.home-filter {
+    background-color: #ededed;
+    display: flex;
+    align-items: center;
+    padding: 12px 22px;
+    border-radius: 2px;
+}
+
+.home-filter__label {
+    font-size: 1.4rem;
+    color: #555555;
+    margin-right: 16px;
+}
+
+.home-filter__btn {
+    min-width: 90px;
+    margin-right: 12px;
+    background-color: #fff;
+}
+
+.home-filter__page {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.home-filter__page-num {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    margin-right: 22px;
+}
+
+.home-filter__page-current {
+    color: var(--primary-color);
+}
+
+.home-filter__page-control {
+    border-radius: 2px;
+    overflow: hidden;
+    display: flex;
+    width: 72px;
+    height: 36px;
+    box-shadow: 0 0 2px #ccc;
+}
+
+.home-filter__page-btn {
+    flex: 1;
+    display: flex;
+    text-decoration: none;
+    background-color: var(--white-color);
+}
+
+.home-filter__page-btn--disabled {
+    cursor: default;
+    background-color: #f9f9f9;
+}
+
+.home-filter__page-btn--disabled  .home-filter__page-icon {
+    color: #ccc;
+}
+
+.home-filter__page-btn:first-child {
+    border-right: 1px solid #EEE;    
+}
+
+.home-filter__page-icon {
+    font-size: 1.2rem;
+    margin: auto;
+    color: #555 ;
+}
+
+/* Product item */
+.home-product-item {
+    display: block;
+    margin-top: 10px;
+    position: relative;
+    text-decoration: none;
+    border-radius: 2px;
+    background-color: var(--white-color);   
+    box-shadow: 0 1px 2px 0 rgba(0, 0 ,0, 0.1);
+    transition: transform ease-in 0.1s; /*định nghĩa ra animation đúng với transform, ứng transform sẽ ốp animation kiểu ease-in (linear-loang đều), thời gian 0.1s*/
+    will-change: transform; /*để trình duyệt tối ưu animation transform*/
+}
+
+.home-product-item:hover {
+    transform: translateY(-1px); /*nhích xuống theo chiều dọc, -1px thì sẽ nhích ngược thành lên trên 1px*/
+    box-shadow: 0 1px 20px 0 rgba(0, 0 ,0, 0.05);
+}
+
+.home-product-item__img {
+    padding-top: 100%; /*khi padding-top 100% ở background-image thì con số tương đối 100% là tương đối với chính thẻ cha chứa nó */
+    background-repeat: no-repeat;
+    background-size: contain;
+    /* nếu dùng cover thì phải thêm background-position center */
+    background-position: top center; /*khi dùng contain thì không dùng cái này cũng được*/
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.home-product-item__name {
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text-color);
+    line-height: 1.8rem;
+    margin: 10px 10px 6px;
+    height: 3.6rem;
+    overflow: hidden;
+    display: block; /*trường hợp webkit box không hỗ trợ thì sẽ chạy block*/
+    display: -webkit-box; /*chỉ hỗ trợ trên các prozer có core webkit, dùng thêm block để khi không hỗ trợ thì block sẽ được thay vào*/
+    -webkit-box-orient: vertical; /*chọn hướng, vertical là dọc, chọn dọc vì dòng 1 xuống hàng dọc tới hàng 2*/
+    -webkit-line-clamp: 2; /*giới hạn xuống dòng, cho 2 vào thì quá dòng 2 sẽ kh hiện và hiện thành dấu ...
+    phải overflow hidden để cắt dòng thừa đi vì nó sẽ hiện ... và không cắt dòng dưới */
+    /* text-overflow: ellipsis;
+    white-space: nowrap;  chỉ áp dụng được với 1 dòng, khi có thuộc tính white sapce nowrap nó sẽ đi xuyên qua đi tiếp mãi ở dòng 1, 
+    dòng thừa sẽ bị che đi, thêm text-overflow ellipsis giúp hiện ra dấu ... nhưng cách này chỉ dùng để hiện 3 chấm ở dòng 1 được thôi*/
+}   
+
+.home-product-item__price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.home-product-item__price-old {
+    font-size: 1.4rem;
+    margin-left: 10px;
+    color: #666;
+    text-decoration: line-through; /*dấu gạch giữa*/
+}
+
+.home-product-item__price-current {
+    font-size: 1.6rem;
+    color: var(--primary-color);
+    margin-left: 10px;
+}
+
+.home-product-item__action {
+    display: flex;
+    justify-content: space-between;
+    margin:6px 10px 0;
+}
+
+.home-product-item__like {
+    font-size: 1.3rem;
+
+}
+
+i.home-product-item__like-icon-fill { /*mặc định sẽ ẩn fill, vì thư viên fontawesome gọi css nhiều thư viên nên ưu tiên hơn, sẽ ghi đè none thành inline-block nên để ghi đè được phải dùng cái mạnh hơn là thêm thẻ i vào*/
+    display: none;
+    color: #F63D30;
+
+}
+
+.home-product-item__like--liked .home-product-item__like-icon-fill {
+    display: inline-block;
+}
+
+.home-product-item__like--liked .home-product-item__like-icon-empty {
+    display: none;
+}
+
+
+.home-product-item__rating {
+    font-size: 1rem;
+    transform: scale(0.8); /*không thể thu nhỏ icon nữa, dù có dùng thêm zoom 0. nên dùng scale để làm nhỏ icon*/
+    transform-origin: right; /*khi bị thu nhỏ sẽ bị lệch đi sang trái hoặc hướng khác nên dùng right để nó ép về lại bên phải*/
+    color: #D5D5D5;
+    margin: -0.5px 0  0 auto; /*đẩy bên trái, đẩy sang phải tới khi gặp được thẻ khác*/
+}
+
+.home-product-item__star--gold {
+    color: var( --star-gold-color );
+}
+
+.home-product-item__sold {
+    font-size: 1.2rem;
+    color: var(--black-color);
+    margin-left: 6px;
+}
+
+.home-product-item__origin {
+    display: flex;  
+    margin: 0 10px;
+    color: #595959;
+    font-size: 1.2rem;
+    font-weight: 300;
+    margin-top: 6px;
+}
+
+.icon--- {
+    width: 11.5px;
+}
+.home-product-item__brand {
+    margin-right: auto; /*đẩy ra 2 bên thay vì dùng space-between*/
+}
+
+.home-product-item__favourite {
+    position: absolute;
+    top: 10px;
+    left: -4px;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.6rem;
+    padding-right: 4px;
+    background-color: currentColor; /*keyword css, ăn theo màu hiện tại, màu chữ set cho class này hiện tại là primary*/
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.home-product-item__favourite i {
+    font-size: 0.9rem;
+    margin: 0 2px 0 5px;
+    color: var(--white-color);
+}
+
+.home-product-item__favourite::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    border-top: 3.2px solid currentColor;
+    border-left: 3.2    px solid transparent;
+    filter: brightness(60%);
+}
+
+.home-product-item__favourite span {
+    color: var(--white-color);
+}
+
+.home-product-item__sale-off {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 36px;
+    text-align: center;
+    background-color: rgba(255, 216, 64, 0.94);
+    border-top-right-radius: 2px;
+}
+
+.home-product-item__sale-off::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    border-width: 0 20px 4px;
+    border-style: solid;
+    color: rgba(255, 216, 64, 0.94);
+    border-color: transparent currentColor transparent currentColor;
+}
+
+.home-product-item__sale-off-percent {
+    color: #EE4D2D;
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+    position: relative;
+    top: 3px;
+}
+
+.home-product-item__sale-off-label {
+    color: var(--white-color);
+    font-size: 1.3rem;
+    line-height: 1.3rem;
+    position: relative;
+    top: 2px;
+    font-weight: 600;
+}
+
+.home-product__pagination {
+    margin: 48px 0 36px;
+}
+
+/* Footer */
+.footer {
+    border-top: 4px solid var(--primary-color);
+    padding-top: 32px;
+}
+
+.footer__heading {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    text-transform: uppercase;
+    padding-bottom: 10px;
+}
+
+.footer-list {
+    list-style: none;
+}
+
+.footer-item__link {
+    color: #737373;
+    font-size: 1.2rem;
+    text-decoration: none;
+    padding: 6px 0;
+    display: flex;
+    align-items: center;
+}
+
+.footer-item__link:hover {
+    color: var(--primary-color);;
+}
+
+.footer-item__icon {
+    font-size: 1.6rem;
+    margin-right: 6px;
+}
+
+.footer__download {
+    display: flex;
+}
+
+.footer__download-qr {
+    width: 80px;
+    height: 80px; /*vì đặt height rồi nên không cần object fit nữa*/
+    /* object-fit: contain;// giống background size nhưng khác là object-fit dùng cho img, phòng trường hợp ảnh ăn theo trục cross axiss rồi bị méo */
+    border: 1px solid rgba(0, 0 ,0, 0.2);
+    margin-top: 10px;
+}
+
+.footer__download-apps {
+    flex: 1;
+    margin-left: 16px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.footer__download-app-img {
+    height: 20px; /*không dùng width vì ông dài ông ngắn thêm vào sẽ thành ông to ông nhỏ*/
+}
+
+.footer__download-app-link {
+    text-decoration: none;
+    color: transparent;
+    /*phòng trường hợp các trình duyệt cũ cho cả gạch chân và màu vào ảnh*/
+}
+
+.footer__bottom {
+    margin-top: 30px;
+    padding: 12px 0;
+    font-size: 1.4rem;
+    text-align: center;
+    color: #737373;
+    background-color: #F5F5F5;
 }
