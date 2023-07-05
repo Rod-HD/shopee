@@ -10,10 +10,10 @@
     --text-color: #333;
     --border-color: #060404;
     --star-gold-color: #FFCE3E;
-    --navbar-height: 34px;
     --header-height: 120px;
+    --navbar-height: 34px;
     --header-with-search-height: calc(var(--header-height) - var(--navbar-height));
-
+    --header-sort-bar-height: 46px;
 }
 
 html {
@@ -25,16 +25,6 @@ html {
 
 
 /* Responsive */
-.grid {
-    width: 1200px;
-    max-width: 100%; /*phòng trường hợp 1 số máy không có độ phân giải đủ 1200px thì width sẽ thành 100%*/
-    margin: 0 auto; /*để khối này được căn giữa mặc định*/
-}
-
-.grid__full--width {
-    width: 100% /*để khi không muốn sài 1200px*/
-}
-
 .grid__row {
     display: flex;
     flex-wrap: wrap;

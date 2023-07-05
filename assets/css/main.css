@@ -1,9 +1,13 @@
+.app {
+    overflow: hidden;
+}
+
 .header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1;
+    z-index: 3;
     height: var(--header-height);
     background-image: linear-gradient(0,#fe6433, #f53e2d);
 }
@@ -496,6 +500,25 @@
     margin: 0 8px;
 }
 
+.header__search-checkbox:checked ~ .header__search {
+    display: flex;
+}
+
+.header__mobile-search {
+    cursor: pointer;
+    display: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.header__mobile-search {
+    padding: 0 12px;
+}
+
+.header__mobile-search-icon {
+    font-size: 2.6rem;
+    color: var(--white-color);
+}
+
 .header__logo {
     width: 200px;
 }
@@ -504,6 +527,8 @@
     color: transparent;
     text-decoration: none; /* phòng trường hợp các trình duyệt cũ hay IE cho dấu gạch chân và nền xanh vô icon logo shopee*/
     /* color transparent sẽ không ảnh hưởng tới màu logo shopee vì đó là logo ảnh hoặc logo fill*/
+    display: block;
+    line-height: 0;
 }
 
 .header__logo-img {
@@ -529,6 +554,7 @@
     display: inline-block;
     padding: 0 12px;
     cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .header__cart-icon {
@@ -868,11 +894,46 @@
     display: block;
 }
 
+/* Header sort bar */
+.header__sort-bar {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    height: var(--header-sort-bar-height);
+    background-color: var(--white-color);
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    display: none;
+}
+
+
+.header__sort-item {
+    list-style: none;
+    flex: 1;
+}
+
+.header__sort-link {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 1.4rem;
+    display: block;
+    width: 100%;
+    line-height: var(--header-sort-bar-height);
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+
 .app__container {
     background-color: #F5F5F5;
-    margin-top: var(--header-height);
-    padding-top: 36px;
+    /* padding-top: 36px; */
     padding-bottom: 10px;
+    margin-top: var(--header-height);
+}
+
+.app__content {
+    padding-top: 36px;
 }
 
 .category {
@@ -929,6 +990,69 @@
     right: -4px; /*cho chạy right từ 0 tới -4*/
     color: var(--primary-color);
 }
+
+
+/* Mobile Category */
+.mobile-category {
+    display: none;
+}
+
+.mobile-category-list {
+    display: flex;
+    max-width: 100%;
+    overflow-x: auto; /*khi thẻ con vượt quá kích thước thẻ cha theo nhiều ngang thì auto sẽ mặc định là tạo thanh kéo ngang*/
+}
+
+/* thanh trượt scroll xuất hiện do tk ul cho phép và ul có overflow auto */
+.mobile-category-list::-webkit-scrollbar {
+    display: none;
+}
+
+.mobile-category-item {
+    list-style: none;
+    padding-left: 10px;
+    flex-shrink: 0; /*để không bị co lại khi thẻ con vượt quá kích thước thẻ cha, thường là kí tự vượt quá thẻ chứa nó */
+}
+
+.mobile-category-item:first-child {
+    padding-left: 0;
+}
+
+.mobile-category-item:nth-last-of-type(3n + 1) .mobile-category__link {
+    background-color: #87AFD8;
+}
+
+.mobile-category-item:nth-last-of-type(3n + 2) .mobile-category__link {
+    background-color: #76C9BD;
+}
+
+.mobile-category-item:nth-last-of-type(3n + 3) .mobile-category__link {
+    background-color: #88CF81;
+}
+
+.mobile-category__link {
+    --line-height: 2rem;
+    text-decoration: none;
+    color: var(--white-color);
+    font-size: 1.4rem;
+    font-weight: 300;
+    line-height: var(--line-height);
+    height: calc(var(--line-height) * 2);
+    overflow: hidden;
+    width: 108px;
+    display: block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    text-align: center;
+    border-radius: 4px;
+    user-select: none;
+    -webkit-user-select: none; /*check support trên trình duyệt, can i you*/
+    -webkit-tap-highlight-color: transparent;
+    padding: 0 4px;
+}
+
+
 
 /* Home sort + filter */
 
@@ -1045,7 +1169,7 @@
     -webkit-line-clamp: 2; /*giới hạn xuống dòng, cho 2 vào thì quá dòng 2 sẽ kh hiện và hiện thành dấu ...
     phải overflow hidden để cắt dòng thừa đi vì nó sẽ hiện ... và không cắt dòng dưới */
     /* text-overflow: ellipsis;
-    white-space: nowrap;  chỉ áp dụng được với 1 dòng, khi có thuộc tính white sapce nowrap nó sẽ đi xuyên qua đi tiếp mãi ở dòng 1, 
+        white-space: nowrap;  chỉ áp dụng được với 1 dòng, khi có thuộc tính white sapce nowrap nó sẽ đi xuyên qua đi tiếp mãi ở dòng 1, 
     dòng thừa sẽ bị che đi, thêm text-overflow ellipsis giúp hiện ra dấu ... nhưng cách này chỉ dùng để hiện 3 chấm ở dòng 1 được thôi*/
 }   
 
@@ -1062,6 +1186,10 @@
     text-decoration: line-through; /*dấu gạch giữa*/
 }
 
+.home-product-item__price-old-not-line-through {
+    text-decoration: none;
+}
+
 .home-product-item__price-current {
     font-size: 1.6rem;
     color: var(--primary-color);
@@ -1074,6 +1202,12 @@
     margin:6px 10px 0;
 }
 
+/* .home-product-item-package {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+} */
+
 .home-product-item__like {
     font-size: 1.3rem;
 
@@ -1082,7 +1216,6 @@
 i.home-product-item__like-icon-fill { /*mặc định sẽ ẩn fill, vì thư viên fontawesome gọi css nhiều thư viên nên ưu tiên hơn, sẽ ghi đè none thành inline-block nên để ghi đè được phải dùng cái mạnh hơn là thêm thẻ i vào*/
     display: none;
     color: #F63D30;
-
 }
 
 .home-product-item__like--liked .home-product-item__like-icon-fill {
@@ -1110,6 +1243,14 @@ i.home-product-item__like-icon-fill { /*mặc định sẽ ẩn fill, vì thư v
     font-size: 1.2rem;
     color: var(--black-color);
     margin-left: 6px;
+    /* max-width: 56px; */
+    line-height: 1.6rem;
+    height: 1.6rem;
+    overflow: hidden;
+    display: block; /*trường hợp webkit box không hỗ trợ thì sẽ chạy block*/
+    display: -webkit-box; /*chỉ hỗ trợ trên các prozer có core webkit, dùng thêm block để khi không hỗ trợ thì block sẽ được thay vào*/
+    -webkit-box-orient: vertical; /*chọn hướng, vertical là dọc, chọn dọc vì dòng 1 xuống hàng dọc tới hàng 2*/
+    -webkit-line-clamp: 1;
 }
 
 .home-product-item__origin {
@@ -1209,7 +1350,6 @@ i.home-product-item__like-icon-fill { /*mặc định sẽ ẩn fill, vì thư v
 /* Footer */
 .footer {
     border-top: 4px solid var(--primary-color);
-    padding-top: 32px;
 }
 
 .footer__heading {
@@ -1217,6 +1357,7 @@ i.home-product-item__like-icon-fill { /*mặc định sẽ ẩn fill, vì thư v
     color: var(--text-color);
     text-transform: uppercase;
     padding-bottom: 10px;
+    padding-top: 32px;
 }
 
 .footer-list {
